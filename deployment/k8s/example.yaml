@@ -19,11 +19,15 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: CRASH
-              valueFrom:
-                configMapKeyRef:
-                  name: testkube-triggers-example-config
-                  key: CRASH
+            - name: CONFIG_PATH
+              value: "/app/config.yaml"
+          volumeMounts:
+            - mountPath: "/app"
+              name: testkube-triggers-example-config
+      volumes:
+        - name: app-config
+          configMap:
+            name: testkube-triggers-example-config
 ---
 apiVersion: v1
 kind: Service
@@ -45,4 +49,5 @@ metadata:
   name: testkube-triggers-example-config
   namespace: testkube
 data:
-  CRASH: "false"
+  config.yaml: |
+    crash: false
