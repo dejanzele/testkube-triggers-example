@@ -8,3 +8,6 @@ out/
 # Golang
 bin/
 pkg/
+
+# GoReleaser
+dist/
