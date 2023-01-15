@@ -1,0 +1,8 @@
+{
+  "command": [
+    "curl",
+    "http://testkube-triggers-example-service:8080/health"
+  ],
+  "expected_status": "200",
+  "expected_body": "Everything is running smoothly :)"
+}
