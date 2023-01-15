@@ -9,24 +9,22 @@ import (
 	"os"
 )
 
-var cfg *Config
-
 func main() {
 	logger := log.Default()
-	logger.Println("Loading application config")
-	config, err := loadConfig()
-	if err != nil {
-		logger.Fatalf("error loading config: %v", err)
-	}
-	cfg = config
 	logger.Println("Starting service on port 8080")
 	http.HandleFunc("/health", healthCheckHandler)
 	http.ListenAndServe(":8080", nil)
 }
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
-	log.Default().Printf("Crash variable is set to %t", cfg.Crash)
-	if cfg.Crash == true {
+	logger := log.Default()
+	logger.Println("Loading application config")
+	config, err := loadConfig()
+	if err != nil {
+		logger.Fatalf("error loading config: %v", err)
+	}
+	log.Default().Printf("Crash variable is set to %t", config.Crash)
+	if config.Crash == true {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "Ooops, application stopped working :(")
 		return
