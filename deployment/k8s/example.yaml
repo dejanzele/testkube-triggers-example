@@ -23,7 +23,7 @@ spec:
               value: "/app/config.yaml"
           volumeMounts:
             - mountPath: "/app"
-              name: testkube-triggers-example-config
+              name: app-config
       volumes:
         - name: app-config
           configMap:

@@ -25,6 +25,7 @@ func main() {
 }
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	log.Default().Println("Crash variable is set to %t", cfg.Crash)
 	if cfg.Crash == true {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "Ooops, application stopped working :(")
