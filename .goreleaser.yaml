@@ -11,6 +11,9 @@ builds:
 dockers:
   - image_templates:
       - dpejcev/testkube-trigger-example:latest
+      - dpejcev/testkube-trigger-example:{{ .Major }}"
+      - dpejcev/testkube-trigger-example:{{ .Major }}.{{ .Minor }}"
+      - dpejcev/testkube-trigger-example:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
     dockerfile: build/testkube-triggers-example/Dockerfile
     build_flag_templates:
       - "--label=org.opencontainers.image.created={{.Date}}"
