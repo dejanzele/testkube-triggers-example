@@ -1,0 +1,10 @@
+# IntelliJ
+out/
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Golang
+bin/
+pkg/

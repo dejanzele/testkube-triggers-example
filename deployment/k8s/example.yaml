@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testkube-triggers-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: testkube-triggers-example
+  template:
+    metadata:
+      labels:
+        app: testkube-triggers-example
+    spec:
+      containers:
+        - name: app
+          image: dpejcev/testkube-triggers-example:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: CRASH
+              valueFrom:
+                configMapKeyRef:
+                  name: testkube-triggers-example-config
+                  key: CRASH
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: testkube-triggers-example-service
+spec:
+  selector:
+    app: testkube-triggers-example
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: testkube-triggers-example-config
+data:
+  CRASH: "false"

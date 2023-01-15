@@ -1,0 +1,24 @@
+project_name: testkube-triggers-example
+
+builds:
+  - binary: testkube-triggers-example
+    goos:
+      - linux
+    goarch:
+      - amd64
+    main: main.go
+
+dockers:
+  - image_templates:
+      - dpejcev/testkube-trigger-example:latest
+    dockerfile: build/testkube-triggers-example/Dockerfile
+    build_flag_templates:
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - '--label=org.opencontainers.image.description="Example Go application for Testkube Test Triggers"'
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.licenses=MIT"
+
+release:
+  disable: true
