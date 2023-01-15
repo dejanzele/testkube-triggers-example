@@ -10,10 +10,10 @@ builds:
 
 dockers:
   - image_templates:
-      - dpejcev/testkube-trigger-example:latest
-      - dpejcev/testkube-trigger-example:{{ .Major }}
-      - dpejcev/testkube-trigger-example:{{ .Major }}.{{ .Minor }}
-      - dpejcev/testkube-trigger-example:{{ .Major }}.{{ .Minor }}.{{ .Patch }}
+      - dpejcev/testkube-triggers-example:latest
+      - dpejcev/testkube-triggers-example:{{ .Major }}
+      - dpejcev/testkube-triggers-example:{{ .Major }}.{{ .Minor }}
+      - dpejcev/testkube-triggers-example:{{ .Major }}.{{ .Minor }}.{{ .Patch }}
     dockerfile: build/testkube-triggers-example/Dockerfile
     build_flag_templates:
       - "--label=org.opencontainers.image.created={{.Date}}"
