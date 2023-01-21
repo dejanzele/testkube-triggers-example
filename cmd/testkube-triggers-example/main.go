@@ -19,16 +19,7 @@ func main() {
 }
 
 func performanceHandler(w http.ResponseWriter, r *http.Request) {
-	logger := log.Default()
-	logger.Println("Loading application config")
-	config, err := loadConfig()
-	if err != nil {
-		logger.Fatalf("error loading config: %v", err)
-	}
-	logger.Printf("Slow variable is set to %t\n", config.Slow)
-	if config.Slow {
-		time.Sleep(250 * time.Millisecond)
-	}
+	time.Sleep(250 * time.Millisecond)
 	fmt.Fprint(w, "I am responding as fast as I can")
 }
 
