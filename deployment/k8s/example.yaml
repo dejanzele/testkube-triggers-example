@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: dpejcev/testkube-triggers-example:latest
+          image: dpejcev/testkube-triggers-example:1.0.11
           ports:
             - containerPort: 8080
           env:
@@ -51,3 +51,4 @@ metadata:
 data:
   config.yaml: |
     crash: false
+    slow: false
