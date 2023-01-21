@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 func main() {
@@ -19,7 +18,6 @@ func main() {
 }
 
 func performanceHandler(w http.ResponseWriter, r *http.Request) {
-	time.Sleep(250 * time.Millisecond)
 	fmt.Fprint(w, "I am responding as fast as I can")
 }
 
