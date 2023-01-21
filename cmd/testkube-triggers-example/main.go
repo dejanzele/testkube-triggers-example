@@ -7,13 +7,29 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
 	logger := log.Default()
 	logger.Println("Starting service on port 8080")
 	http.HandleFunc("/health", healthCheckHandler)
+	http.HandleFunc("/perf", performanceHandler)
 	http.ListenAndServe(":8080", nil)
+}
+
+func performanceHandler(w http.ResponseWriter, r *http.Request) {
+	logger := log.Default()
+	logger.Println("Loading application config")
+	config, err := loadConfig()
+	if err != nil {
+		logger.Fatalf("error loading config: %v", err)
+	}
+	logger.Printf("Slow variable is set to %t\n", config.Slow)
+	if config.Slow {
+		time.Sleep(250 * time.Millisecond)
+	}
+	fmt.Fprint(w, "I am responding as fast as I can")
 }
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,8 +39,8 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		logger.Fatalf("error loading config: %v", err)
 	}
-	log.Default().Printf("Crash variable is set to %t", config.Crash)
-	if config.Crash == true {
+	logger.Printf("Crash variable is set to %t\n", config.Crash)
+	if config.Crash {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, "Ooops, application stopped working :(")
 		return
@@ -54,4 +70,5 @@ func loadConfig() (*Config, error) {
 
 type Config struct {
 	Crash bool `yaml:"crash"`
+	Slow  bool `yaml:"slow"`
 }

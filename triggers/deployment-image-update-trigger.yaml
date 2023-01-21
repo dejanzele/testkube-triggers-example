@@ -1,0 +1,17 @@
+apiVersion: tests.testkube.io/v1
+kind: TestTrigger
+metadata:
+  name: deployment-image-update-trigger
+  namespace: testkube
+spec:
+  resource: deployment
+  resourceSelector:
+    name: testkube-triggers-example
+    namespace: testkube
+  event: deployment_image_update
+  delay: 30s
+  action: run
+  execution: test
+  testSelector:
+    name: performance-test
+    namespace: testkube
