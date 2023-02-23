@@ -11,14 +11,20 @@ import (
 
 func main() {
 	logger := log.Default()
+	_, err := loadConfig()
+	if err != nil {
+		logger.Fatalf("error loading config: %v", err)
+	}
 	logger.Println("Starting service on port 8080")
 	http.HandleFunc("/health", healthCheckHandler)
 	http.HandleFunc("/perf", performanceHandler)
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		logger.Fatalf("error starting service: %v", err)
+	}
 }
 
 func performanceHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "I am responding as fast as I can")
+	_, _ = fmt.Fprint(w, "I am responding as fast as I can")
 }
 
 func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,10 +37,10 @@ func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Printf("Crash variable is set to %t\n", config.Crash)
 	if config.Crash {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, "Ooops, application stopped working :(")
+		_, _ = fmt.Fprint(w, "Ooops, application stopped working :(")
 		return
 	}
-	fmt.Fprint(w, "Everything is running smoothly :)")
+	_, _ = fmt.Fprint(w, "Everything is running smoothly :)")
 }
 
 func loadConfig() (*Config, error) {
